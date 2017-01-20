@@ -8,7 +8,7 @@ use python3 develop a app
 
 ### result for work:
 目录结构：
-![Alt text](2F6D7084-6634-4A44-9434-C4F961C18B22.png "2")
+![image](2F6D7084-6634-4A44-9434-C4F961C18B22.png "2")
 
 首页：
 ![Alt text](F51C81F5-7A1A-41DC-8DA2-325A2B369BA7.png "2")
