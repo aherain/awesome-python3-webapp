@@ -1,0 +1,25 @@
+/*
+ * custom css
+ */
+a:hover, a:active {
+    text-decoration: none;
+}
+
+#vm {
+    display: none;
+}
+#loading {
+    margin-bottom: 15px;
+}
+#error {
+    display: none;
+    margin-bottom: 15px;
+}
+
+.tag{
+    display: inline-block;
+    border-radius: 5px;
+    padding: 2px;
+    margin-right:5px;
+    border:1px skyblue solid
+}

@@ -1,0 +1,58 @@
+{% extends '__base__.html' %}
+
+{% block title %}日志{% endblock %}
+
+{% block content %}
+
+    <div class="uk-width-medium-1-4">
+        {% if __user__ %}
+        <div class="uk-panel uk-panel-header">
+            <h3 class="uk-panel-title">基本信息</h3>
+            <img src="/static/img/user.png" width="100%" style="height: 160px; border-radius: 5px;"/>
+            <ul class="uk-list uk-list-line">
+                <li><h3>{{__user__.name}}</h3></li>
+                <li><i class="uk-icon-graduation-cap"></i>本科</li>
+                <li><i class="uk-icon-group"></i>HIGO</li>
+                <li><i class="uk-icon-envelope-square"></i>{{__user__.email}}</li>
+                <li><i class="uk-icon-phone"></i>18600336349</li>
+                <li></li>
+            </ul>
+        </div>
+        {% else %}
+        {% endif %}
+    </div>
+
+    <div class="uk-width-medium-3-4">
+        <div class="uk-panel uk-panel-box">
+          <div class="uk-panel-teaser">
+                <img src="/static/img/1.jpeg" alt="">
+                <p>土地是以它的肥沃和收获而被估价的；才能也是土地，不过它生产的不是粮食，而是真理。如果只能滋生瞑想和幻想的话，即使再大的才能也只是砂地或盐池，那上面连小草也长不出来的。 —— <i>别林斯基</i></p>
+          </div>
+         </div>
+        <br/>
+        <div class="uk-grid">
+    <div class="uk-width-medium-1-3">
+        <div class="uk-panel uk-panel-box">
+            <h3 class="uk-panel-title"><i class="uk-icon-file"></i>贡献文章:</h3>
+            <p class="uk-text-small">贡献文章:{{user_blogs}}个</p>
+        </div>
+    </div>
+    <div class="uk-width-medium-1-3">
+        <div class="uk-panel uk-panel-box">
+            <h3 class="uk-panel-title"><i class="uk-icon-comments"></i>贡献评论</h3>
+            <p class="uk-text-small">恭喜你,新完成了{{user_comments}}个评论,</p>
+        </div>
+    </div>
+    <div class="uk-width-medium-1-3">
+        <div class="uk-panel uk-panel-box">
+            <h3 class="uk-panel-title"><i class="uk-icon-tags"></i>人物标签</h3>
+            <p class="uk-text-small"><span class="tag">爱时尚</span><span class="tag">爱科技</span><span class="tag">爱折腾</span></p>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+    </div>
+
+{% endblock %}

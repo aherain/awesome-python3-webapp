@@ -1,0 +1,36 @@
+{% extends '__base__.html' %}
+
+{% block title %}日志{% endblock %}
+
+{% block content %}
+
+    <div class="uk-width-medium-3-4">
+        {% for blog in blogs %}
+            <article class="uk-article">
+                <h3 class="uk-article-title">{{ blog.name }}</h3>
+                <p class="uk-article-meta"><i class="uk-icon-user"></i><b><a href="/user/home/{{blog.user_id}}">{{blog.user_name}}</a></b>:发表于{{ blog.created_at|datetime }},<i class="uk-icon-tags"></i>文章标签:{{blog.tags}}</p>
+                <p class="uk-article-lead">{{blog.summary}}</p>
+                <p><a href="/blog/{{ blog.id }}"> 继续阅读<i class="uk-icon-angle-double-right"></i></a></p>
+            </article>
+            <hr class="uk-article-divider">
+        {% endfor %}
+    </div>
+
+    <div class="uk-width-medium-1-4">
+        <div class="uk-panel uk-panel-header">
+            <h3 class="uk-panel-title">最新动态</h3>
+            <ul class="uk-list uk-list-line">
+                <li><i class="uk-icon-users"></i>来访222w人次</li>
+                <li><i class="uk-icon-book"></i>文章1000W</li>
+                <li><i class="uk-icon-user"></i>注册用户1000w</li>
+            </ul>
+
+            <h3 class="uk-panel-title">文章热度</h3>
+            <ul class="uk-list uk-list-line">
+                {% for blog in blogs[1:5] %}
+                <li><i class="uk-icon-arrow-circle-up"></i> <a href="/blog/{{blog.id}}">{{blog.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends '__base__.html' %}
+
+{% block title %}日志{% endblock %}
+
+{% block beforehead %}
+
+<script>
+function initVM(data) {
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+            blogs: data.blogs,
+            page: data.page
+        },
+        methods: {
+            edit_blog: function (blog) {
+                location.assign('/manage/blogs/edit?id=' + blog.id);
+            },
+            read_blog: function (blog) {
+                location.assign('/blog/'+ blog.id);
+            },
+            user_home: function (blog) {
+                location.assign('/user/home/' + blog.user_id);
+            },
+            delete_blog: function (blog) {
+                if (confirm('确认要删除“' + blog.name + '”？删除后不可恢复！')) {
+                    postJSON('/api/blogs/' + blog.id + '/delete', function (err, r) {
+                        if (err) {
+                            return alert(err.message || err.error || err);
+                        }
+                        refresh();
+                    });
+                }
+            }
+        }
+    });
+    $('#vm').show();
+}
+$(function() {
+    getJSON('/api/blogs', {
+        page: {{ page_index }}
+    }, function (err, results) {
+        if (err) {
+            return fatal(err);
+        }
+        $('#loading').hide();
+        initVM(results);
+    });
+});
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="uk-width-1-1 uk-margin-bottom">
+
+        <ul class="uk-tab uk-tab-grid">
+             <li><a href="/manage/comments">评论</a></li>
+             <li class="uk-active"><a href="/manage/blogs">日志</a></li>
+            <li ><a href="/manage/users">用户</a></li>
+        </ul>
+    </div>
+
+    <div id="error" class="uk-width-1-1">
+    </div>
+
+    <div id="loading" class="uk-width-1-1 uk-text-center">
+        <span><i class="uk-icon-spinner uk-icon-medium uk-icon-spin"></i> 正在加载...</span>
+    </div>
+
+    <div id="vm" class="uk-width-1-1">
+        <a href="/manage/blogs/create" class="uk-button uk-button-primary"><i class="uk-icon-plus"></i> 新日志</a>
+
+        <table class="uk-table uk-table-hover">
+            <thead>
+                <tr>
+                    <th class="uk-width-5-10">标题 / 摘要</th>
+                    <th class="uk-width-2-10">作者</th>
+                    <th class="uk-width-2-10">创建时间</th>
+                    <th class="uk-width-1-10">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="blog of blogs" >
+                    <td>
+                        <a target="_blank" v-text="blog.name" v-on:click="read_blog(blog)" ></a>
+                    </td>
+                    <td>
+                        <a target="_blank" v-text="blog.user_name" v-on:click="user_home(blog)" ></a>
+                    </td>
+                    <td>
+                        <span v-text="blog.created_at.toDateTime()"></span>
+                    </td>
+                    <td>
+                        <a href="#0" v-on:click="edit_blog(blog)"><i class="uk-icon-edit"></i>
+                        <a href="#0" v-on:click="delete_blog(blog)"><i class="uk-icon-trash-o"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div component="pagination">
+            <ul class="uk-pagination">
+                 <li class="uk-disabled"><span><<</span></li>
+                <li class="uk-active"><span>2</span></li>
+                <li class="uk-disabled"><span>3</span></li>
+                 <li ><span class="uk-disabled">>></span></li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    {% block meta %}<!-- block meta  -->{% endblock %}
+    <title>{% block title %} ? {% endblock %} - Awesome Python Webapp</title>
+    <link rel="stylesheet" href="/static/css/uikit.min.css">
+    <link rel="stylesheet" href="/static/css/uikit.gradient.min.css">
+    <link rel="stylesheet" href="/static/css/awesome.css" />
+    <link rel="stylesheet" href="/static/css/components/slideshow.css" />
+    <link rel="stylesheet" href="/static/css/components/sticky.css" />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/uikit.min.js"></script>
+
+    <script src="/static/js/awesome.js"></script>
+    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/js/components/lightbox.min.js"></script>
+    <script src="/static/js/components/search.js"></script>
+    <script src="/static/js/components/sticky.js"></script>
+    <script src="/static/js/components/pagination.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/static/font-awesome-470/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="/static/simditor-236/styles/simditor.css" />
+
+    <script type="text/javascript" src="/static/simditor-236/scripts/module.js"></script>
+    <script type="text/javascript" src="/static/simditor-236/scripts/hotkeys.js"></script>
+    <script type="text/javascript" src="/static/simditor-236/scripts/uploader.js"></script>
+    <script type="text/javascript" src="/static/simditor-236/scripts/simditor.js"></script>
+    {% block beforehead %}<!-- before head  -->{% endblock %}
+</head>
+<body>
+    <nav class="uk-navbar uk-navbar-attached uk-margin-bottom" data-uk-sticky="{top:1}">
+        <div class="uk-container uk-container-center">
+            <a href="/" class="uk-navbar-brand">简单记忆</a>
+            <ul class="uk-navbar-nav">
+                <li data-url="blogs"><a href="/"><i class="uk-icon-home"></i> 首页</a></li>
+                <li><a href="/manage/blogs/create"><i class="uk-icon-book"></i>写日志</a></li>
+                <li><a href="/manage/"><i class="uk-icon-users"></i>管理</a></li>
+                 <li data-uk-offcanvas="{target:'#my-id'}"><a href="#"><i class="uk-icon-search"></i>搜索</a></li>
+            </ul>
+            <div class="uk-navbar-flip">
+                <ul class="uk-navbar-nav">
+                {% if __user__ %}
+                    <li class="uk-parent" data-uk-dropdown>
+                        <a href="#0"><i class="uk-icon-user"></i> 昵称:{{__user__.name}}</a>
+                        <div class="uk-dropdown uk-dropdown-navbar">
+                            <ul class="uk-nav uk-nav-navbar">
+                                <li><a href="/user/home/{{__user__.id}}"><i class="uk-icon-user"></i>个人中心</a></li>
+                                <li><a href="/signout"><i class="uk-icon-sign-out"></i> 登出</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                {% else %}
+                    <li><a href="/signin"><i class="uk-icon-sign-in"></i> 登陆</a></li>
+                    <li><a href="/register"><i class="uk-icon-edit"></i> 注册</a></li>
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<!-- 这是抽屉边栏 -->
+<div id="my-id" class="uk-offcanvas">
+    <div class="uk-offcanvas-bar">
+        <form class="uk-search" data-uk-search="{source:'my-results.json'}">
+
+    <input class="uk-search-field" style="width: auto;height: 30px; border-radius: 5px;margin-left: 20px;" type="search" placeholder="">
+    <!-- 这是通过JavaScript注入了搜索结果的下拉菜单 -->
+    <div class="uk-dropdown uk-dropdown-search">
+        <ul class="uk-nav uk-nav-search">...</ul>
+
+    </div>
+
+</form>
+        <hr/>
+        <h4>热搜榜</h4>
+    </div>
+</div>
+    <div class="uk-container uk-container-center">
+        <div class="uk-grid">
+            <!-- content -->
+            {% block content %}
+            {% endblock %}
+            <!-- // content -->
+        </div>
+    </div>
+
+    <div class="uk-margin-large-top" style="background-color:#ffffff; border-top:1px solid #ededed;">
+        <div class="uk-container uk-container-center uk-text-center">
+            <div class="uk-panel uk-margin-top uk-margin-bottom">
+                <p>
+                   一起写自己生活中的小事,点滴是美好的开始......
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

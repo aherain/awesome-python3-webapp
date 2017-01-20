@@ -1,0 +1,112 @@
+{% extends '__base__.html' %}
+
+{% block title %}编辑日志{% endblock %}
+
+{% block beforehead %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="uk-width-1-1 uk-margin-bottom">
+
+        <ul class="uk-tab uk-tab-grid">
+            <li class="uk-active"><a href="/manage/users">写日志</a></li>
+        </ul>
+    </div>
+
+    <div id="error" class="uk-width-1-1">
+    </div>
+
+    <div id="loading" class="uk-width-1-1 uk-text-center">
+        <span><i class="uk-icon-spinner uk-icon-medium uk-icon-spin"></i> 正在加载...</span>
+    </div>
+
+    <div id="vm" class="uk-width-2-3">
+        <form v-on:submit="submit" class="uk-form uk-form-stacked">
+            <div class="uk-alert uk-alert-danger uk-hidden"></div>
+            <div class="uk-form-row">
+                <label class="uk-form-label">标题:</label>
+                <div class="uk-form-controls">
+                    <input v-model="name" name="name" type="text" placeholder="标题" class="uk-width-1-1">
+                </div>
+            </div>
+            <div class="uk-form-row">
+                <label class="uk-form-label">标签:</label>
+                <div class="uk-form-controls">
+                    <input v-model="tags"  name="tags" type="text" placeholder="标签" class="uk-width-1-1">
+                </div>
+            </div>
+            <div class="uk-form-row">
+                <label class="uk-form-label">摘要:</label>
+                <div class="uk-form-controls">
+                    <textarea v-model="summary" rows="4" name="summary" placeholder="摘要" class="uk-width-1-1" style="resize:none;"></textarea>
+                </div>
+            </div>
+            <div class="uk-form-row">
+                <label class="uk-form-label">内容:</label>
+                <div class="uk-form-controls">
+                    <textarea rows="16" name="content" style="resize:none;"  class="uk-width-1-1" id="editor"></textarea>
+                </div>
+            </div>
+            <div class="uk-form-row">
+                <button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-save"></i> 保存</button>
+                <a href="/manage/blogs" class="uk-button"><i class="uk-icon-times"></i> 取消</a>
+            </div>
+        </form>
+    </div>
+
+<script>
+ var editor = new Simditor({
+  textarea: $('#editor')
+  //optional options
+});
+</script>
+
+<script>
+var ID = '{{ id }}', action = '{{action}}';
+function initVM(blog) {
+    editor.setValue(blog.content);
+    var vm = new Vue({
+        el: '#vm',
+        data: blog,
+        methods: {
+            submit: function (event) {
+                event.preventDefault();
+                this.$data['content']=editor.getValue();
+                var $form = $('#vm').find('form');
+                $form.postJSON(action,this.$data, function (err, r) {
+                    if (err) {
+                        $form.showFormError(err);
+                    }
+                    else {
+                        return location.assign('/');
+                    }
+                });
+            }
+        }
+    });
+    $('#vm').show();
+}
+$(function () {
+    if (ID) {
+        getJSON('/api/blogs/' + ID, function (err, blog) {
+            if (err) {
+                return fatal(err);
+            }
+            $('#loading').hide();
+            initVM(blog);
+        });
+    }
+    else {
+        $('#loading').hide();
+        initVM({
+            name: '',
+            tags: '',
+            summary: '',
+            content: ''
+        });
+    }
+});
+</script>
+{% endblock %}
